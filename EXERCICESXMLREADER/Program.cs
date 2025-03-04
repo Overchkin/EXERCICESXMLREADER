@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,23 @@ namespace EXERCICESXMLREADER
 
             reader.ReadEndElement();
 
-            System.Console.WriteLine($"{personne.Prenom} {personne.Nom} né le {personne.DateDeNaissance:dd/MM/yyyy} mesure {personne.Taille}cm");
+            System.Console.WriteLine($"{personne.Prenom} {personne.Nom} " +
+                $"né le {personne.DateDeNaissance:dd/MM/yyyy} mesure {personne.Taille}cm");
+
+            var writerSettings = new XmlWriterSettings
+            {
+                Indent = true
+            };
+            var writer = XmlWriter.Create(@"C:\Users\Israël TODOME\source\repos\EXERCICESXMLREADER\EXERCICESXMLREADER", writerSettings);
+
+            writer.WriteStartElement("Personne");
+            writer.WriteElementString("Nom", personne.Nom);
+            writer.WriteElementString("Prenom", personne.Prenom);
+            writer.WriteElementString("DateDeNaissance", personne.DateDeNaissance.ToString());
+            writer.WriteElementString("Taille", personne.Taille.ToString());
+            writer.WriteEndElement();
+
+            writer.Flush();
         }
     }
 }
